@@ -1511,7 +1511,7 @@ dwarf_object_finish(Dwarf_Debug dbg, Dwarf_Error * error)
 /*  ALLOWED_ZLIB_INFLATION is a heuristic, not necessarily right.
     The test case klingler2/compresseddebug.amd64 actually
     inflates about 8 times. */
-#define ALLOWED_ZLIB_INFLATION 16
+#define ALLOWED_ZLIB_INFLATION 128
 static int
 do_decompress_zlib(Dwarf_Debug dbg,
     struct Dwarf_Section_s *section,
@@ -1592,12 +1592,12 @@ do_decompress_zlib(Dwarf_Debug dbg,
                 DWARF_DBG_ERROR(dbg, DW_DLE_ZLIB_UNCOMPRESS_ERROR,
                     DW_DLV_ERROR);
             }
+            if (uncompressed_len > max_inflated_len) {
+                DWARF_DBG_ERROR(dbg, DW_DLE_ZLIB_UNCOMPRESS_ERROR, DW_DLV_ERROR);
+            }
         }
         if (max_inflated_len < srclen) {
             /* The calculation overflowed. */
-            DWARF_DBG_ERROR(dbg, DW_DLE_ZLIB_UNCOMPRESS_ERROR, DW_DLV_ERROR);
-        }
-        if (uncompressed_len > max_inflated_len) {
             DWARF_DBG_ERROR(dbg, DW_DLE_ZLIB_UNCOMPRESS_ERROR, DW_DLV_ERROR);
         }
     }
