@@ -1511,7 +1511,7 @@ dwarf_object_finish(Dwarf_Debug dbg, Dwarf_Error * error)
 /*  ALLOWED_ZLIB_INFLATION is a heuristic, not necessarily right.
     The test case klingler2/compresseddebug.amd64 actually
     inflates about 8 times. */
-#define ALLOWED_ZLIB_INFLATION 128
+#define ALLOWED_ZLIB_INFLATION 1024
 static int
 do_decompress_zlib(Dwarf_Debug dbg,
     struct Dwarf_Section_s *section,
